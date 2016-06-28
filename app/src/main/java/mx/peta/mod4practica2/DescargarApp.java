@@ -4,13 +4,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+
+import mx.peta.mod4practica2.servicios.ServicioDescarga;
 
 /**
  * Created by rayo on 6/28/16.
  */
-public class DescargarApp extends AppCompatActivity {
+public class DescargarApp extends AppCompatActivity implements View.OnClickListener {
+
+    EditText nombreAplicacion;
+    EditText descrpcion;
+    EditText nombreDesarrollador;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,11 +36,19 @@ public class DescargarApp extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setIcon(R.drawable.mod4practica2);
         getSupportActionBar().setDisplayShowHomeEnabled(false); // false oculta el icono, true lo muestra
+
+        // inicializamos los campos editables que tienen la informacion de la descarga
+        nombreAplicacion    = (EditText) findViewById(R.id.descargar_edittext_nombreAplicacion);
+        descrpcion          = (EditText) findViewById(R.id.descargar_edittext_descripcion);
+        nombreDesarrollador = (EditText) findViewById(R.id.descargar_edittext_nombreDesarrollador);
+
+        // se inicializan los manejadores de eventos de los botones
+        findViewById(R.id.descargar_btn_descarga).setOnClickListener(this);
     }
 
     /*
     Los metodos onCreateptionsMenu y onOptionsItemSelected son metodos que están en la
-    activity, y se encargan de manejar el menu, aparecen el developers.android.com en la
+    activity, y se encargan de manejar el menu, estan documentados en developers.android.com en la
     parte de menu y se explica como se deben manejar
  */
     @Override
@@ -39,6 +57,10 @@ public class DescargarApp extends AppCompatActivity {
         return true;
     }
 
+    /*
+        Aunque no se infla el menu el resto del toolbar esta presente y funcionando, por lo que es
+        necesario atender al icono de home
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -52,4 +74,22 @@ public class DescargarApp extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            //mandamos llamar al servicio que se va a encargar de descargar la aplicación
+            //le pasamos los parametros necesarios para que se inicialize la BD en la simulación
+            //el servicio se va a encargar de cargar la imagen aleatoria que le corresponda
+            //a la aplicación y llenara el estado de la aplicación apropiado en la BD
+            case R.id.descargar_btn_descarga:
+                Intent intent = new Intent(getApplicationContext(), ServicioDescarga.class);
+                intent.putExtra(ServicioDescarga.NOMBRE_APLICACION, nombreAplicacion.getText().toString());
+                intent.putExtra(ServicioDescarga.DESCRIPCION, descrpcion.getText().toString());
+                intent.putExtra(ServicioDescarga.NOMBRE_DESARROLLADOR, nombreDesarrollador.getText().toString());
+                startService(intent);
+                finish();
+                break;
+
+        }
+    }
 }

@@ -26,6 +26,7 @@
             android:label="DescargarApp"
             android:name=".DescargarApp">
         </activity>
+        <service android:name=".servicios.ServicioDescarga" />
     </application>
 
 </manifest>

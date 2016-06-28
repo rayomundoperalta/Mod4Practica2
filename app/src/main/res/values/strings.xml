@@ -4,4 +4,14 @@
     <string name="menu2"></string>
     <string name="menu3"></string>
     <string name="descarga_app">Descarga Apps</string>
+    <string name="nombre_aplicacion">nombre aplicacion</string>
+    <string name="descripcion">descripción</string>
+    <string name="nombre_desarrollador">nombre desarrollador</string>
+    <string name="estado">estado</string>
+    <string name="btndescarga">Instalar</string>
+    <string name="descargando_aplicacion">Descargando Aplicacion</string>
+    <string name="descargando">Descargando</string>
+    <string name="descarga_completa">Descarga Completa</string>
+    <string name="descarga_completa_largo">Se ha completado la descarga de</string>
+    <string name="descargado">Descargada</string>
 </resources>

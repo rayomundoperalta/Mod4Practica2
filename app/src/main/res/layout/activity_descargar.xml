@@ -7,7 +7,47 @@
     <include layout="@layout/toolbar"></include>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <!-- aqui va lo que se necesite para descargar una app -->
+        android:layout_height="match_parent">
+        <!-- <ImageView
+            android:layout_weight="1"
+            android:id="@+id/descargar_imageR"
+            android:src="@drawable/mod4practica2"
+            android:layout_width="60dp"
+            android:layout_height="60dp" /> -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <EditText
+                android:inputType="textNoSuggestions"
+                android:layout_weight="3"
+                android:id="@+id/descargar_edittext_nombreAplicacion"
+                android:hint="@string/nombre_aplicacion"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:inputType="textNoSuggestions"
+                android:layout_weight="3"
+                android:id="@+id/descargar_edittext_descripcion"
+                android:hint="@string/descripcion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:inputType="textNoSuggestions"
+                android:layout_weight="2"
+                android:id="@+id/descargar_edittext_nombreDesarrollador"
+                android:hint="@string/nombre_desarrollador"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/descargar_btn_descarga"
+                android:text="@string/btndescarga"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>
