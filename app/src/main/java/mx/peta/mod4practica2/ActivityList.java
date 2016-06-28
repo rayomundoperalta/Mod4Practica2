@@ -9,8 +9,10 @@ import android.view.MenuItem;
 
 /**
  * Created by rayo on 6/27/16.
- * La pagina principal de la app esta constituida por una fragmento en donde ocurre toda la acción
- * la carga de aplicaciones se hace a travéz del menu
+ * La pagina principal de la app es un activity
+ * para descargar app nos iremos a otro activity que se encargará de manejar la descarga
+ * para comunicarse de un activity a otro usaremos la base de datos
+ * o sea la actividad principal siempre mostrará el contenido de la base de datos
  */
 public class ActivityList extends AppCompatActivity {
 
@@ -43,7 +45,11 @@ public class ActivityList extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toobar_menu,menu);
+        /*
+            la linea siguiente infla el menu del toolbar, si no se llama a inflate
+            unicamente no se muestra el menu pero el toolbar funciona perfectamente
+         */
+        getMenuInflater().inflate(R.menu.toolbar_menu,menu);
         return true;
     }
 
@@ -54,6 +60,9 @@ public class ActivityList extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.menu1: // descarga aplicación
+                // arrancamos la actividad DescargarApp para manejar la descarga de aplicaciones
+                // cada actividad manejara su propio toolbar para tener la facilidad de
+                // cambiar el contenido de los menus
                 Intent intent = new Intent(getApplicationContext(), DescargarApp.class);
                 startActivity(intent);
                 return true;
