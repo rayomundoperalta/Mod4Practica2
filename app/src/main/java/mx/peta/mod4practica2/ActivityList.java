@@ -1,5 +1,6 @@
 package mx.peta.mod4practica2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +9,8 @@ import android.view.MenuItem;
 
 /**
  * Created by rayo on 6/27/16.
+ * La pagina principal de la app esta constituida por una fragmento en donde ocurre toda la acción
+ * la carga de aplicaciones se hace a travéz del menu
  */
 public class ActivityList extends AppCompatActivity {
 
@@ -28,9 +31,9 @@ public class ActivityList extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.app_name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setIcon(R.drawable.mod4practica2);
-        getSupportActionBar().setDisplayShowHomeEnabled(true); // if false oculta el icono
-
+        getSupportActionBar().setDisplayShowHomeEnabled(false); // if false oculta el icono
         // getSupportActionBar().setHomeButtonEnabled(true);
+
     }
 
     /*
@@ -50,7 +53,9 @@ public class ActivityList extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.menu1:
+            case R.id.menu1: // descarga aplicación
+                Intent intent = new Intent(getApplicationContext(), DescargarApp.class);
+                startActivity(intent);
                 return true;
             case R.id.menu2:
                 return true;
