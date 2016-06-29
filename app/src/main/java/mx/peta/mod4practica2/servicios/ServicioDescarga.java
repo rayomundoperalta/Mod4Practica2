@@ -103,9 +103,9 @@ public class ServicioDescarga extends Service {
                                   idIcono, ModelItem.INSTALADA);
         ds = new DataSource(getApplicationContext());
 
-        if(myAsyncTask==null)
+        if (myAsyncTask == null)
         {
-            myAsyncTask= new MyAsyncTask();
+            myAsyncTask = new MyAsyncTask();
             myAsyncTask.execute();
         }
 

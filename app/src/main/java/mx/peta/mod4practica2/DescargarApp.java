@@ -10,7 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import mx.peta.mod4practica2.SQL.DataSource;
+import mx.peta.mod4practica2.model.ModelItem;
 import mx.peta.mod4practica2.servicios.ServicioDescarga;
+import mx.peta.mod4practica2.utileria.SystemMsg;
 
 /**
  * Created by rayo on 6/28/16.
@@ -76,18 +79,23 @@ public class DescargarApp extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        DataSource ds = new DataSource(getApplicationContext());
         switch (view.getId()) {
             //mandamos llamar al servicio que se va a encargar de descargar la aplicación
             //le pasamos los parametros necesarios para que se inicialize la BD en la simulación
             //el servicio se va a encargar de cargar la imagen aleatoria que le corresponda
             //a la aplicación y llenara el estado de la aplicación apropiado en la BD
             case R.id.descargar_btn_descarga:
-                Intent intent = new Intent(getApplicationContext(), ServicioDescarga.class);
-                intent.putExtra(ServicioDescarga.NOMBRE_APLICACION, nombreAplicacion.getText().toString());
-                intent.putExtra(ServicioDescarga.DESCRIPCION, descrpcion.getText().toString());
-                intent.putExtra(ServicioDescarga.NOMBRE_DESARROLLADOR, nombreDesarrollador.getText().toString());
-                startService(intent);
-                finish();
+                ModelItem modelItem = ds.getApp(nombreAplicacion.getText().toString());
+                if (modelItem == null) {
+                    Intent intent = new Intent(getApplicationContext(), ServicioDescarga.class);
+                    intent.putExtra(ServicioDescarga.NOMBRE_APLICACION, nombreAplicacion.getText().toString());
+                    intent.putExtra(ServicioDescarga.DESCRIPCION, descrpcion.getText().toString());
+                    intent.putExtra(ServicioDescarga.NOMBRE_DESARROLLADOR, nombreDesarrollador.getText().toString());
+                    startService(intent);
+                    finish();
+                } else
+                    SystemMsg.msg(getApplicationContext(),getString(R.string.aplicacionrepetida));
                 break;
 
         }

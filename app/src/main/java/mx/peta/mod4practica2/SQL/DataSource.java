@@ -39,7 +39,7 @@ public class DataSource {
         si no se encuentra al usuario hay que regresar null
         El query debe ser: select password from table where User = user
      */
-    public ModelItem getPassword(String appName) {
+    public ModelItem getApp(String appName) {
         String QUERY_PASSWORD = "select " +
                 SqLiteHelper.APP_COLUMN_NAME          + ", " +
                 SqLiteHelper.APP_COLUMN_DESC          + ", " +
