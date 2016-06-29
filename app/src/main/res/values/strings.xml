@@ -20,4 +20,6 @@
     <string name="noinstalada">No instalada</string>
     <string name="aplicacionrepetida">Aplicacion ya instalada</string>
     <string name="lista_vacia">No hay apps instaladas</string>
+    <string name="descarga_comleta">Descarga completa</string>
+    <string name="descargada">descargada</string>
 </resources>

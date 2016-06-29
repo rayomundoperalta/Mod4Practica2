@@ -27,7 +27,8 @@ public class DescargarApp extends AppCompatActivity implements View.OnClickListe
     EditText nombreAplicacion;
     EditText descrpcion;
     EditText nombreDesarrollador;
-
+    DataSource ds;
+    int idDescarga;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +52,9 @@ public class DescargarApp extends AppCompatActivity implements View.OnClickListe
 
         // se inicializan los manejadores de eventos de los botones
         findViewById(R.id.descargar_btn_descarga).setOnClickListener(this);
+
+        ds = new DataSource(getApplicationContext());
+        idDescarga = getIntent().getExtras().getInt(ActivityList.CONTADOR_DESCARGAS);
     }
 
     /*
@@ -83,7 +87,7 @@ public class DescargarApp extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        DataSource ds = new DataSource(getApplicationContext());
+
         switch (view.getId()) {
             //mandamos llamar al servicio que se va a encargar de descargar la aplicación
             //le pasamos los parametros necesarios para que se inicialize la BD en la simulación
@@ -96,11 +100,17 @@ public class DescargarApp extends AppCompatActivity implements View.OnClickListe
                     intent.putExtra(ServicioDescarga.NOMBRE_APLICACION, nombreAplicacion.getText().toString());
                     intent.putExtra(ServicioDescarga.DESCRIPCION, descrpcion.getText().toString());
                     intent.putExtra(ServicioDescarga.NOMBRE_DESARROLLADOR, nombreDesarrollador.getText().toString());
+                    intent.putExtra(ActivityList.CONTADOR_DESCARGAS, idDescarga);
                     startService(intent);
                     finish();
                 } else
                     SystemMsg.msg(getApplicationContext(),getString(R.string.aplicacionrepetida));
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

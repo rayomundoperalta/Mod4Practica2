@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -11,7 +12,9 @@ import android.widget.ListView;
 import java.util.List;
 
 import mx.peta.mod4practica2.SQL.DataSource;
+import mx.peta.mod4practica2.SQL.SqLiteHelper;
 import mx.peta.mod4practica2.adapter.AdapterItemList;
+import mx.peta.mod4practica2.fragmentos.FragmentoLista;
 import mx.peta.mod4practica2.fragmentos.FragmentoListaVacia;
 import mx.peta.mod4practica2.model.ModelItem;
 
@@ -23,8 +26,9 @@ import mx.peta.mod4practica2.model.ModelItem;
  * o sea la actividad principal siempre mostrará el contenido de la base de datos
  */
 public class ActivityList extends AppCompatActivity {
+    public static final String CONTADOR_DESCARGAS = "contador_descargas";
     ListView listView;
-    int counter;
+    int contadorDescargas;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +40,7 @@ public class ActivityList extends AppCompatActivity {
             abajo. Esto demuestra que el manejo de los eventos esta desligado de la parte grafica.
             Los items del menu se definen en el archivo xml
         */
-
+        contadorDescargas = 0;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.app_name);
@@ -55,19 +59,17 @@ public class ActivityList extends AppCompatActivity {
             de lo contrario se muestra una lista con las apps instaladas
             para implementar esta parte se usa un fragmento que permite cabiar las vistas
          */
-        FragmentoListaVacia f = new FragmentoListaVacia();
-        getFragmentManager().beginTransaction().replace(R.id.fragmento_apps, f).commit();
-        /*
-        // Llenamos la lista de la actividad con la información de la base de datos
         DataSource ds = new DataSource(getApplicationContext());
-        listView = (ListView) findViewById(R.id.activity_list_listview);
-
-        List<ModelItem> modelItemList = ds.getAllItems();
-        counter                       = modelItemList.size();
-        if (counter > 0)
-            listView.setAdapter(new AdapterItemList(getApplicationContext(),modelItemList));
-        */
-
+        int cuantosRegistros = ds.cuantosRegistros(SqLiteHelper.APP_TABLE_NAME);
+        if (cuantosRegistros == 0) {
+            Log.d("petaplay", "detectamos base de datos vacia");
+            FragmentoListaVacia f = new FragmentoListaVacia();
+            getFragmentManager().beginTransaction().replace(R.id.fragmento_apps, f).commit();
+        } else {
+            Log.d("petaplay", "detectamos base de datos con registros");
+            FragmentoLista f = new FragmentoLista();
+            getFragmentManager().beginTransaction().replace(R.id.fragmento_apps, f).commit();
+        }
     }
 
     /*
@@ -79,7 +81,7 @@ public class ActivityList extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         /*
             la linea siguiente infla el menu del toolbar, si no se llama a inflate
-            unicamente no se muestra el menu pero el toolbar funciona perfectamente
+            unicamente no se muestra el toolbar sin el menu, funciona perfectamente
          */
         getMenuInflater().inflate(R.menu.toolbar_menu,menu);
         return true;
@@ -87,6 +89,9 @@ public class ActivityList extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        /*
+            El toolbar se procesa aqui
+         */
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
@@ -96,6 +101,7 @@ public class ActivityList extends AppCompatActivity {
                 // cada actividad manejara su propio toolbar para tener la facilidad de
                 // cambiar el contenido de los menus
                 Intent intent = new Intent(getApplicationContext(), DescargarApp.class);
+                intent.putExtra(CONTADOR_DESCARGAS, contadorDescargas++);
                 startActivity(intent);
                 return true;
             case R.id.menu2:

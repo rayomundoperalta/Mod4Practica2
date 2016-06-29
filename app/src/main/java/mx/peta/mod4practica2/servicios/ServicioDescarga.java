@@ -14,6 +14,7 @@ import android.util.Log;
 
 import java.util.Random;
 
+import mx.peta.mod4practica2.ActivityList;
 import mx.peta.mod4practica2.R;
 import mx.peta.mod4practica2.SQL.DataSource;
 import mx.peta.mod4practica2.model.ModelItem;
@@ -35,6 +36,8 @@ public class ServicioDescarga extends Service {
     private MyAsyncTask myAsyncTask;
 
     private DataSource ds;
+
+    private int idDescarga;
 
     private static final int MIN = 1;
     private static final int MAX = 10;
@@ -65,42 +68,45 @@ public class ServicioDescarga extends Service {
         // Siempre que se llame al servicio se tienen que incluir parametros en el intent
         Log.d("petaplay", "se arranca el servicio");
         // es necesario escoger aleatoriamente el icono que se le asocia
-        switch (r.nextInt(MAX - MIN + 1) + MIN) {
-            case 1:
-                idIcono = R.drawable.icono1;
-                break;
-            case 2:
-                idIcono = R.drawable.icono2;
-                break;
-            case 3:
-                idIcono = R.drawable.icono3;
-                break;
-            case 4:
-                idIcono = R.drawable.icono4;
-                break;
-            case 5:
-                idIcono = R.drawable.icono5;
-                break;
-            case 6:
-                idIcono = R.drawable.icono6;
-                break;
-            case 7:
-                idIcono = R.drawable.icono7;
-                break;
-            case 8:
-                idIcono = R.drawable.icono8;
-                break;
-            case 9:
-                idIcono = R.drawable.icono9;
-                break;
-            case 10:
-                idIcono = R.drawable.icono10;
-                break;
-        }
-        modelItem = new ModelItem(intent.getExtras().getString(NOMBRE_APLICACION),
-                                  intent.getExtras().getString(DESCRIPCION),
-                                  intent.getExtras().getString(NOMBRE_DESARROLLADOR),
-                                  idIcono, ModelItem.INSTALADA);
+        if(intent.getExtras()!=null && intent.getExtras().containsKey(ActivityList.CONTADOR_DESCARGAS)) {
+            switch (r.nextInt(MAX - MIN + 1) + MIN) {
+                case 1:
+                    idIcono = R.drawable.icono1;
+                    break;
+                case 2:
+                    idIcono = R.drawable.icono2;
+                    break;
+                case 3:
+                    idIcono = R.drawable.icono3;
+                    break;
+                case 4:
+                    idIcono = R.drawable.icono4;
+                    break;
+                case 5:
+                    idIcono = R.drawable.icono5;
+                    break;
+                case 6:
+                    idIcono = R.drawable.icono6;
+                    break;
+                case 7:
+                    idIcono = R.drawable.icono7;
+                    break;
+                case 8:
+                    idIcono = R.drawable.icono8;
+                    break;
+                case 9:
+                    idIcono = R.drawable.icono9;
+                    break;
+                case 10:
+                    idIcono = R.drawable.icono10;
+                    break;
+            }
+            modelItem = new ModelItem(intent.getExtras().getString(NOMBRE_APLICACION),
+                    intent.getExtras().getString(DESCRIPCION),
+                    intent.getExtras().getString(NOMBRE_DESARROLLADOR),
+                    idIcono, ModelItem.INSTALADA);
+            idDescarga = intent.getExtras().getInt(ActivityList.CONTADOR_DESCARGAS);
+        } else Log.d("petaplay", "pasamos por el else que no entiendo");
         ds = new DataSource(getApplicationContext());
 
         if (myAsyncTask == null)
@@ -112,7 +118,7 @@ public class ServicioDescarga extends Service {
         return START_STICKY;
     }
 
-    private class MyAsyncTask extends AsyncTask<Integer,Integer,Boolean>
+    private class MyAsyncTask extends AsyncTask<Integer, Integer, Boolean>
     {
         private NotificationCompat.Builder mNotif;
 
@@ -147,7 +153,7 @@ public class ServicioDescarga extends Service {
             mNotif.setProgress(INTERVALOS_ESPERA, values[0], false);
             NotificationManager manager  = (NotificationManager)
                     getSystemService(Context.NOTIFICATION_SERVICE);
-            manager.notify(0,mNotif.build());
+            manager.notify(idDescarga,mNotif.build());
         }
 
         @Override
@@ -156,7 +162,7 @@ public class ServicioDescarga extends Service {
             {
                 mNotif.setProgress(0,0,false); //elimina progres cuando lo seteamos a 0
                 mNotif.setContentTitle(getString(R.string.descarga_completa));
-                mNotif.setContentText(getString(R.string.descarga_completa_largo) + " " + modelItem.appName);
+                mNotif.setContentText(modelItem.appName);
                 mNotif.setContentInfo(getString(R.string.descargado));
                 mNotif.setAutoCancel(true);
                 mNotif.setStyle(new NotificationCompat.BigTextStyle()
@@ -164,7 +170,7 @@ public class ServicioDescarga extends Service {
 
                 NotificationManager manager  = (NotificationManager)
                         getSystemService(Context.NOTIFICATION_SERVICE);
-                manager.notify(0,mNotif.build());
+                manager.notify(idDescarga,mNotif.build());
 
                 /*
                     En este punto lo unico que hay que hacer es almacenar la nueva app en la

@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ListView
-        android:id="@+id/activity_list_listview"
+        android:id="@+id/lista_fragmento_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

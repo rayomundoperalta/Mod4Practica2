@@ -21,6 +21,16 @@ public class DataSource {
         db = helper.getWritableDatabase();
     }
 
+    public int cuantosRegistros(String tableName) {
+        String count   = "SELECT count(*) FROM " + tableName;
+        Cursor mcursor = db.rawQuery(count, null);
+        mcursor.moveToFirst();
+        // icount contiene el numero de registrops en la tabla
+        int icount = mcursor.getInt(0);
+        mcursor.close();
+        return icount;
+    }
+
     public void writeApp(ModelItem app) {
         db.beginTransaction();
         try {
@@ -43,7 +53,7 @@ public class DataSource {
         El query debe ser: select password from table where User = user
      */
     public ModelItem getApp(String appName) {
-        String QUERY_PASSWORD = "select " +
+        String QUERY = "select " +
                 SqLiteHelper.APP_COLUMN_NAME          + ", " +
                 SqLiteHelper.APP_COLUMN_DESC          + ", " +
                 SqLiteHelper.APP_COLUMN_DESARROLLADOR + ", " +
@@ -52,14 +62,16 @@ public class DataSource {
                 " from " + SqLiteHelper.APP_TABLE_NAME + " where " + SqLiteHelper.APP_COLUMN_NAME +
                 " = ?";
         // rawQuery("SELECT id, name FROM people WHERE name = ? AND id = ?", new String[] {"David", "2"});
-        Cursor cursor = db.rawQuery(QUERY_PASSWORD, new String[] {appName});
-        if (cursor.moveToFirst())
-            return new ModelItem( cursor.getString(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_NAME)),
-                                  cursor.getString(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_DESC)),
-                                  cursor.getString(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_DESARROLLADOR)),
-                                  cursor.getInt(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_ICONO)),
-                                  cursor.getInt(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_ESTADO)));
-        else
+        Cursor cursor = db.rawQuery(QUERY, new String[] {appName});
+        if (cursor.moveToFirst()) {
+            ModelItem modelItem = new ModelItem(cursor.getString(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_NAME)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_DESC)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_DESARROLLADOR)),
+                    cursor.getInt(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_ICONO)),
+                    cursor.getInt(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_ESTADO)));
+            cursor.close();
+            return modelItem;
+        } else
             return null;
     }
 
@@ -87,6 +99,7 @@ public class DataSource {
 
             modelItemList.add(modelItem);
         }
+        cursor.close();
         return modelItemList;
     }
 }
