@@ -12,16 +12,18 @@ public class ModelItem {
     public static final int POR_ACTUALIZAR = 2;
     public static final int ACTUALIZADA    = 3;
 
-    public String  nombreDesarrollador;
-    public String  nombreAplicacion;
-    public int     imagenR;
-    public int     estado;
+    public String  appName;
+    public String  appDescripcion;
+    public String  appDesarrollador;
+    public int     appIcono;
+    public int     appEstado;
 
-    public ModelItem(String nombreDesarrollador, String nombreAplicacion, int imagenR,
-                     int estado) {
-        this.nombreDesarrollador = nombreDesarrollador;
-        this.nombreAplicacion    = nombreAplicacion;
-        this.imagenR             = imagenR;
-        this.estado              = estado;
+    public ModelItem(String appName, String appDescripcion, String appDesarrollador, int appIcono,
+                     int appEstado) {
+        this.appName          = appName;
+        this.appDescripcion   = appDescripcion;
+        this.appDesarrollador = appDesarrollador;
+        this.appIcono         = appIcono;
+        this.appEstado        = appEstado;
     }
 }

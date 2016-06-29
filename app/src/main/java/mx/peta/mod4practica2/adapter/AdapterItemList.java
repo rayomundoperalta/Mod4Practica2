@@ -27,16 +27,32 @@ public class AdapterItemList extends ArrayAdapter<ModelItem> {
         if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         }
-        ImageView imageR              = (ImageView) convertView.findViewById(R.id.list_item_imageR);
-        TextView nombreDesarrollador  = (TextView) convertView.findViewById(R.id.list_item_nombreDesarrollador);
-        TextView nombreAplicacion     = (TextView) convertView.findViewById(R.id.list_item_nombreAplicacion);
-        TextView estado               = (TextView) convertView.findViewById(R.id.list_item_estado);
+        ImageView icono               = (ImageView) convertView.findViewById(R.id.list_item_imageR);
+        TextView nombreDesarrollador  = (TextView)  convertView.findViewById(R.id.list_item_nombreDesarrollador);
+        TextView nombreAplicacion     = (TextView)  convertView.findViewById(R.id.list_item_nombreAplicacion);
+        TextView descripcion          = (TextView)  convertView.findViewById(R.id.list_item_descripcion);
+        TextView estado               = (TextView)  convertView.findViewById(R.id.list_item_estado);
 
         ModelItem modelItem = getItem(position);
-        imageR.setImageResource(modelItem.imagenR);
-        nombreDesarrollador.setText(modelItem.nombreDesarrollador);
-        nombreAplicacion.setText(modelItem.nombreAplicacion);
-        estado.setText(modelItem.estado);
+        icono.setImageResource(modelItem.appIcono);
+        nombreDesarrollador.setText(modelItem.appDesarrollador);
+        descripcion.setText(modelItem.appDescripcion);
+        nombreAplicacion.setText(modelItem.appName);
+        switch (modelItem.appEstado) {
+            case ModelItem.ACTUALIZADA:
+                estado.setText(convertView.getResources().getString(R.string.actualizada));
+                break;
+            case ModelItem.INSTALADA:
+                estado.setText(convertView.getResources().getString(R.string.instalada));
+                break;
+            case ModelItem.POR_ACTUALIZAR:
+                estado.setText(convertView.getResources().getString(R.string.por_actualizar));
+                break;
+            case ModelItem.NO_INSTALADA:
+                estado.setText(convertView.getResources().getString(R.string.noinstalada));
+                break;
+        }
+
         return convertView;
     }
 }

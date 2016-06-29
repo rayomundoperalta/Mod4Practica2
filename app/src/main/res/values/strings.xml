@@ -14,4 +14,8 @@
     <string name="descarga_completa">Descarga Completa</string>
     <string name="descarga_completa_largo">Se ha completado la descarga de</string>
     <string name="descargado">Descargada</string>
+    <string name="instalada">Instalada</string>
+    <string name="por_actualizar">Por actualizar</string>
+    <string name="actualizada">Actualizada</string>
+    <string name="noinstalada">No instalada</string>
 </resources>
