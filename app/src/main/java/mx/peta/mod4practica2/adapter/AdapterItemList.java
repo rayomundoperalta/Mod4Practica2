@@ -23,10 +23,14 @@ public class AdapterItemList extends ArrayAdapter<ModelItem> {
         super(context, 0, objects);
     }
 
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         }
+        /*
+            Inicializamos los widgets del list_item
+         */
         ImageView icono               = (ImageView) convertView.findViewById(R.id.list_item_imageR);
         TextView nombreDesarrollador  = (TextView)  convertView.findViewById(R.id.list_item_nombreDesarrollador);
         TextView nombreAplicacion     = (TextView)  convertView.findViewById(R.id.list_item_nombreAplicacion);

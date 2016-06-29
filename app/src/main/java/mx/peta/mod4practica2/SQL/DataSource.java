@@ -5,13 +5,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mx.peta.mod4practica2.model.ModelItem;
 
 /**
  * Created by rayo on 6/28/16.
  */
 public class DataSource {
-    private final SQLiteDatabase db;
+    private static SQLiteDatabase db;
 
     public DataSource(Context context) {
         SqLiteHelper helper = new SqLiteHelper(context);
@@ -58,5 +61,32 @@ public class DataSource {
                                   cursor.getInt(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_ESTADO)));
         else
             return null;
+    }
+
+    public void deleteItem(ModelItem modelItem)
+    {
+        db.delete(SqLiteHelper.APP_TABLE_NAME,SqLiteHelper.APP_COLUMN_ID + "=?",
+                new String[]{String.valueOf(modelItem.id)});
+    }
+
+    public static List<ModelItem> getAllItems()
+    {
+        List<ModelItem> modelItemList = new ArrayList<>();
+        Cursor cursor = db.query(SqLiteHelper.APP_TABLE_NAME,null,null,null,null,null,null);
+        while (cursor.moveToNext())
+        {
+            int id                  = cursor.getInt(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_ID));
+            String appName          = cursor.getString(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_NAME));
+            String appDesccription  = cursor.getString(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_DESC));
+            String appDesarrollador = cursor.getString(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_DESARROLLADOR));
+            int appIcono            = cursor.getInt(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_ICONO));
+            int appEstado           = cursor.getInt(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_ESTADO));
+
+            ModelItem modelItem   = new ModelItem(appName, appDesccription, appDesarrollador, appIcono, appEstado);
+            modelItem.id          = id;
+
+            modelItemList.add(modelItem);
+        }
+        return modelItemList;
     }
 }

@@ -12,6 +12,7 @@ public class ModelItem {
     public static final int POR_ACTUALIZAR = 2;
     public static final int ACTUALIZADA    = 3;
 
+    public int     id;
     public String  appName;
     public String  appDescripcion;
     public String  appDesarrollador;

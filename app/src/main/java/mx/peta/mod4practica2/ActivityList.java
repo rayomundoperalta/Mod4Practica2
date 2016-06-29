@@ -6,6 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import java.util.List;
+
+import mx.peta.mod4practica2.SQL.DataSource;
+import mx.peta.mod4practica2.adapter.AdapterItemList;
+import mx.peta.mod4practica2.fragmentos.FragmentoListaVacia;
+import mx.peta.mod4practica2.model.ModelItem;
 
 /**
  * Created by rayo on 6/27/16.
@@ -15,7 +23,8 @@ import android.view.MenuItem;
  * o sea la actividad principal siempre mostrará el contenido de la base de datos
  */
 public class ActivityList extends AppCompatActivity {
-
+    ListView listView;
+    int counter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +44,29 @@ public class ActivityList extends AppCompatActivity {
         getSupportActionBar().setIcon(R.drawable.mod4practica2);
         getSupportActionBar().setDisplayShowHomeEnabled(false); // if false oculta el icono
         // getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /*
+            Si la base de datos de aplicaciones esta vacia, se muestra la pantalla
+            que indica que no hay apps instalada
+            de lo contrario se muestra una lista con las apps instaladas
+            para implementar esta parte se usa un fragmento que permite cabiar las vistas
+         */
+        FragmentoListaVacia f = new FragmentoListaVacia();
+        getFragmentManager().beginTransaction().replace(R.id.fragmento_apps, f).commit();
+        /*
+        // Llenamos la lista de la actividad con la información de la base de datos
+        DataSource ds = new DataSource(getApplicationContext());
+        listView = (ListView) findViewById(R.id.activity_list_listview);
+
+        List<ModelItem> modelItemList = ds.getAllItems();
+        counter                       = modelItemList.size();
+        if (counter > 0)
+            listView.setAdapter(new AdapterItemList(getApplicationContext(),modelItemList));
+        */
 
     }
 

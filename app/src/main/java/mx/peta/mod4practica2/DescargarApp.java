@@ -9,8 +9,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
+
+import java.util.List;
 
 import mx.peta.mod4practica2.SQL.DataSource;
+import mx.peta.mod4practica2.adapter.AdapterItemList;
 import mx.peta.mod4practica2.model.ModelItem;
 import mx.peta.mod4practica2.servicios.ServicioDescarga;
 import mx.peta.mod4practica2.utileria.SystemMsg;
@@ -97,7 +101,6 @@ public class DescargarApp extends AppCompatActivity implements View.OnClickListe
                 } else
                     SystemMsg.msg(getApplicationContext(),getString(R.string.aplicacionrepetida));
                 break;
-
         }
     }
 }

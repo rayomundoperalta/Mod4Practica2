@@ -19,4 +19,5 @@
     <string name="actualizada">Actualizada</string>
     <string name="noinstalada">No instalada</string>
     <string name="aplicacionrepetida">Aplicacion ya instalada</string>
+    <string name="lista_vacia">No hay apps instaladas</string>
 </resources>
