@@ -94,17 +94,23 @@ public class DescargarApp extends AppCompatActivity implements View.OnClickListe
             //el servicio se va a encargar de cargar la imagen aleatoria que le corresponda
             //a la aplicación y llenara el estado de la aplicación apropiado en la BD
             case R.id.descargar_btn_descarga:
-                ModelItem modelItem = ds.getApp(nombreAplicacion.getText().toString());
-                if (modelItem == null) {
-                    Intent intent = new Intent(getApplicationContext(), ServicioDescarga.class);
-                    intent.putExtra(ServicioDescarga.NOMBRE_APLICACION, nombreAplicacion.getText().toString());
-                    intent.putExtra(ServicioDescarga.DESCRIPCION, descrpcion.getText().toString());
-                    intent.putExtra(ServicioDescarga.NOMBRE_DESARROLLADOR, nombreDesarrollador.getText().toString());
-                    intent.putExtra(ActivityList.CONTADOR_DESCARGAS, idDescarga);
-                    startService(intent);
-                    finish();
-                } else
-                    SystemMsg.msg(getApplicationContext(),getString(R.string.aplicacionrepetida));
+                if (nombreAplicacion.getText().toString().isEmpty() ||
+                    descrpcion.getText().toString().isEmpty() ||
+                    nombreDesarrollador.getText().toString().isEmpty())
+                    SystemMsg.msg(getApplicationContext(), getString(R.string.capos_obligatorios));
+                else {
+                    ModelItem modelItem = ds.getApp(nombreAplicacion.getText().toString());
+                    if (modelItem == null) { // significa que no esta en la base de daatos
+                        Intent intent = new Intent(getApplicationContext(), ServicioDescarga.class);
+                        intent.putExtra(ServicioDescarga.NOMBRE_APLICACION, nombreAplicacion.getText().toString());
+                        intent.putExtra(ServicioDescarga.DESCRIPCION, descrpcion.getText().toString());
+                        intent.putExtra(ServicioDescarga.NOMBRE_DESARROLLADOR, nombreDesarrollador.getText().toString());
+                        intent.putExtra(ActivityList.CONTADOR_DESCARGAS, idDescarga);
+                        startService(intent);
+                        finish();
+                    } else
+                        SystemMsg.msg(getApplicationContext(), getString(R.string.aplicacionrepetida));
+                }
                 break;
         }
     }

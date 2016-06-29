@@ -8,6 +8,7 @@
         android:icon="@drawable/icono1"
         app:showAsAction="never"
         />
+    <!--
     <item android:id="@+id/menu2"
         android:title="@string/menu2"
         android:icon="@drawable/icono2"
@@ -18,4 +19,5 @@
         android:icon="@drawable/icono3"
         app:showAsAction="never"
         />
+        -->
 </menu>

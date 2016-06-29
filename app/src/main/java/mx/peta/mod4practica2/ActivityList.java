@@ -104,10 +104,10 @@ public class ActivityList extends AppCompatActivity {
                 intent.putExtra(CONTADOR_DESCARGAS, contadorDescargas++);
                 startActivity(intent);
                 return true;
-            case R.id.menu2:
-                return true;
-            case R.id.menu3:
-                return true;
+            //case R.id.menu2:
+            //    return true;
+            //case R.id.menu3:
+            //    return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
