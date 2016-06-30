@@ -31,6 +31,11 @@ public class DataSource {
         return icount;
     }
 
+    public static void deleteApp(ModelItem modelItem) {
+        db.delete(SqLiteHelper.APP_TABLE_NAME,SqLiteHelper.APP_COLUMN_ID + " =? ",
+                new String[]{String.valueOf(modelItem.id)});
+    }
+
     public void writeApp(ModelItem app) {
         db.beginTransaction();
         try {

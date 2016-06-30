@@ -1,9 +1,11 @@
 package mx.peta.mod4practica2;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import mx.peta.mod4practica2.SQL.DataSource;
 import mx.peta.mod4practica2.model.ModelItem;
 
 /**
@@ -63,7 +66,7 @@ public class ActivityShowDetail extends AppCompatActivity implements View.OnClic
         showDetailBtnAbrir            = (Button)    findViewById(R.id.show_detail_btn_abrir);
         ShowDetailBtnActualizar       = (Button)    findViewById(R.id.show_detail_btn_actualizar);
 
-        // showDetailImagen.
+        showDetailImagen.setImageResource(modelItem.appIcono);
         showDetailNombreAplicacion.setText(modelItem.appName);
         showDetailDescripcion.setText(modelItem.appDescripcion);
         showDetailNombreDesarrollador.setText(modelItem.appDesarrollador);
@@ -115,13 +118,38 @@ public class ActivityShowDetail extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.show_detail_btn_desinstalar:
-                // Log.d("petaplay", "boton desinstalar");
+                Log.d("petaplay", "boton desinstalar");
+
+                new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.delete_app))
+                    .setMessage(String.format(getString(R.string.Desinstalar_pregunta),modelItem.appName))
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.d("petaplay", "desinstalamos app");
+                                // DataSource.deleteApp(modelItem);
+                            }
+                        })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setCancelable(false)
+                    .create().show();
+
                 break;
             case R.id.show_detail_btn_abrir:
+                // Log.d("petaplay", "boton abrir");
+                /*
+                    La URL tiene se estar completa i.e.
+                    http://yahoo.com/ y no yahoo.com
+                    el error de dirección aparece en el startActivity y no en el parse
+                    bizarro.
+                 */
                 Uri uriUrl = Uri.parse(getString(R.string.url));
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
                 startActivity(launchBrowser);
-                // Log.d("petaplay", "boton abrir");
                 break;
             case R.id.show_detail_btn_actualizar:
                 // Log.d("petaplay", "boton actualizar");

@@ -28,4 +28,6 @@
     <string name="abrir">Abrir</string>
     <string name="actualizar">Actualizar</string>
     <string name="url">http://yahoo.com/</string> <!-- tiene que se un URL COMPLETO -->
+    <string name="delete_app">Desinstalar aplicación</string>
+    <string name="Desinstalar_pregunta">¿Desea borrar %s?</string>
 </resources>

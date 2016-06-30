@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        
         /*
             Esta actividad unicamente muestra el nombre de la aplicación y simula que se está
             inicializando, transfiere el control a la ActivityList que ya tiene funcionalidad
