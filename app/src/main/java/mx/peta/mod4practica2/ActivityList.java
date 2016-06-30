@@ -1,6 +1,9 @@
 package mx.peta.mod4practica2;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -27,8 +30,21 @@ import mx.peta.mod4practica2.model.ModelItem;
  */
 public class ActivityList extends AppCompatActivity {
     public static final String CONTADOR_DESCARGAS = "contador_descargas";
+    public static final String ACTION_UPDATED_DB  = "mx.peta.UPDATED_DB";
     ListView listView;
     int contadorDescargas;
+
+    /*
+        Cada vez que se mande un broadcast re va a recibir aqui,
+        el broadcast correspondiente sera enviado cuando se termine de bajar una aplicación
+     */
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            actializarLista();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +66,20 @@ public class ActivityList extends AppCompatActivity {
         // getSupportActionBar().setHomeButtonEnabled(true);
     }
 
+    private void actializarLista() {
+        DataSource ds = new DataSource(getApplicationContext());
+        int cuantosRegistros = ds.cuantosRegistros(SqLiteHelper.APP_TABLE_NAME);
+        if (cuantosRegistros == 0) {
+            //Log.d("petaplay", "detectamos base de datos vacia");
+            FragmentoListaVacia f = new FragmentoListaVacia();
+            getFragmentManager().beginTransaction().replace(R.id.fragmento_apps, f).commit();
+        } else {
+            //Log.d("petaplay", "detectamos base de datos con registros");
+            FragmentoLista f = new FragmentoLista();
+            getFragmentManager().beginTransaction().replace(R.id.fragmento_apps, f).commit();
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -59,17 +89,20 @@ public class ActivityList extends AppCompatActivity {
             de lo contrario se muestra una lista con las apps instaladas
             para implementar esta parte se usa un fragmento que permite cabiar las vistas
          */
-        DataSource ds = new DataSource(getApplicationContext());
-        int cuantosRegistros = ds.cuantosRegistros(SqLiteHelper.APP_TABLE_NAME);
-        if (cuantosRegistros == 0) {
-            Log.d("petaplay", "detectamos base de datos vacia");
-            FragmentoListaVacia f = new FragmentoListaVacia();
-            getFragmentManager().beginTransaction().replace(R.id.fragmento_apps, f).commit();
-        } else {
-            Log.d("petaplay", "detectamos base de datos con registros");
-            FragmentoLista f = new FragmentoLista();
-            getFragmentManager().beginTransaction().replace(R.id.fragmento_apps, f).commit();
-        }
+        actializarLista();
+        /*
+            abilitamos la recepción de los mensajes de broadcast para enterarnos cuando la
+            BD se actualice
+         */
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_UPDATED_DB);
+        registerReceiver(broadcastReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
     }
 
     /*

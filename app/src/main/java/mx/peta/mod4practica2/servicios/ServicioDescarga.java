@@ -180,6 +180,8 @@ public class ServicioDescarga extends Service {
                 /*
                     Investigar como avisarle a la otra actividad que se actualizó la base de datos
                  */
+                Intent i = new Intent(ActivityList.ACTION_UPDATED_DB);
+                sendBroadcast(i);
             }
             myAsyncTask=null;
             stopSelf();
