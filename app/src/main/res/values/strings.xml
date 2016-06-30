@@ -4,7 +4,7 @@
     <string name="menu2"></string>
     <string name="menu3"></string>
     <string name="descarga_app">Descarga Apps</string>
-    <string name="nombre_aplicacion">nombre aplicacion</string>
+    <string name="nombre_aplicacion">nombre aplicación</string>
     <string name="descripcion">descripción</string>
     <string name="nombre_desarrollador">nombre desarrollador</string>
     <string name="estado">estado</string>
@@ -23,4 +23,9 @@
     <string name="descarga_comleta">Descarga completa</string>
     <string name="descargada">descargada</string>
     <string name="capos_obligatorios">Los campos son obligatorios</string>
+    <string name="editar_detalle">Modificar descripción</string>
+    <string name="desinstalar">Desinstalar</string>
+    <string name="abrir">Abrir</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="url">http://yahoo.com/</string> <!-- tiene que se un URL COMPLETO -->
 </resources>

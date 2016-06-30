@@ -12,6 +12,13 @@ public class ModelItem {
     public static final int POR_ACTUALIZAR = 2;
     public static final int ACTUALIZADA    = 3;
 
+    public static final String APP_ID            = "appid";
+    public static final String APP_NAME          = "appname";
+    public static final String APP_DESCRIPTION   = "appdesc";
+    public static final String APP_DESARROLLADOR = "appdesarrollador";
+    public static final String APP_ICONO         = "appicono";
+    public static final String APP_ESTADO        = "appestado";
+
     public int     id;
     public String  appName;
     public String  appDescripcion;

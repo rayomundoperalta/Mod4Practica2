@@ -1,6 +1,7 @@
 package mx.peta.mod4practica2;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        
         /*
             Esta actividad unicamente muestra el nombre de la aplicación y simula que se está
             inicializando, transfiere el control a la ActivityList que ya tiene funcionalidad

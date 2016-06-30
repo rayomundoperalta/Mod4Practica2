@@ -91,7 +91,7 @@ public class ActivityList extends AppCompatActivity {
          */
         actializarLista();
         /*
-            abilitamos la recepción de los mensajes de broadcast para enterarnos cuando la
+            habilitamos la recepción de los mensajes de broadcast para enterarnos cuando la
             BD se actualice
          */
         IntentFilter filter = new IntentFilter();

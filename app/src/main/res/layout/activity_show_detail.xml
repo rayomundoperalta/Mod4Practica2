@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <include layout="@layout/toolbar"></include>
+    <LinearLayout
+        android:layout_weight="0.07"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_weight="1"
+            android:id="@+id/show_detail_imagen"
+            android:src="@drawable/mod4practica2"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <EditText
+                android:inputType="textNoSuggestions"
+                android:layout_weight="3"
+                android:id="@+id/show_detail_nombreAplicacion"
+                android:hint="@string/nombre_aplicacion"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:inputType="textNoSuggestions"
+                android:layout_weight="3"
+                android:id="@+id/show_detail_descripcion"
+                android:hint="@string/descripcion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:inputType="textNoSuggestions"
+                android:layout_weight="2"
+                android:id="@+id/show_detail_nombreDesarrollador"
+                android:hint="@string/nombre_desarrollador"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/show_detail_btn_desinstalar"
+            android:layout_weight="1"
+            android:text="@string/desinstalar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/show_detail_btn_abrir"
+            android:layout_weight="1"
+            android:text="@string/abrir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/show_detail_btn_actualizar"
+            android:layout_weight="1"
+            android:text="@string/actualizar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>
