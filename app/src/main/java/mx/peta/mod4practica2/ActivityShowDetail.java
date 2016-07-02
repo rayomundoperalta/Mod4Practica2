@@ -35,6 +35,7 @@ public class ActivityShowDetail extends AppCompatActivity implements View.OnClic
     public static final String CONTADOR_DESCARGAS = "contador_descargas";
     public static final String ACTION_DELETED_APP = "mx.peta.DELETED_APP";
     public static final String INTENT_APP_NAME    = "mx.peta.APP_NAME";
+    public static final String ACTION_ACTUALIZADA_APP = "mx.peta.ACTUALIZADA_APP";
 
     int idDescarga = 0;
     ModelItem modelItem;
@@ -58,6 +59,18 @@ public class ActivityShowDetail extends AppCompatActivity implements View.OnClic
             String tmp = showDetailNombreAplicacion.getText().toString();
             if (appName.equals(tmp)) {
                 SystemMsg.msg(getApplicationContext(), getString(R.string.desinstalada));
+            }
+        }
+    };
+
+    private BroadcastReceiver broadcastReceiverActualizada = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String appName = intent.getExtras().getString(INTENT_APP_NAME);
+            String tmp = showDetailNombreAplicacion.getText().toString();
+            if (appName.equals(tmp)) {
+                ShowDetailChbActualizada.setChecked(true);
+                ShowDetailBtnActualizar.setEnabled(false);
             }
         }
     };
@@ -132,11 +145,15 @@ public class ActivityShowDetail extends AppCompatActivity implements View.OnClic
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_DELETED_APP);
         registerReceiver(broadcastReceiver, filter);
+        IntentFilter filtroActualizada = new IntentFilter();
+        filtroActualizada.addAction(ACTION_ACTUALIZADA_APP);
+        registerReceiver(broadcastReceiverActualizada, filtroActualizada);
     }
 
     protected void onPause() {
         super.onPause();
         unregisterReceiver(broadcastReceiver);
+        unregisterReceiver(broadcastReceiverActualizada);
     }
     /*
         Los metodos onCreateptionsMenu y onOptionsItemSelected son metodos que están en la
