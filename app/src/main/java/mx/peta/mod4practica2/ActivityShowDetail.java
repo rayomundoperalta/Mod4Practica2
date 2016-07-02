@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -39,6 +40,7 @@ public class ActivityShowDetail extends AppCompatActivity implements View.OnClic
     Button    showDetailBtnDesinstalar;
     Button    showDetailBtnAbrir;
     Button    ShowDetailBtnActualizar;
+    CheckBox  ShowDetailChbActualizada;
 
     DataSource ds;
 
@@ -76,15 +78,33 @@ public class ActivityShowDetail extends AppCompatActivity implements View.OnClic
         showDetailBtnDesinstalar      = (Button)    findViewById(R.id.show_detail_btn_desinstalar);
         showDetailBtnAbrir            = (Button)    findViewById(R.id.show_detail_btn_abrir);
         ShowDetailBtnActualizar       = (Button)    findViewById(R.id.show_detail_btn_actualizar);
+        ShowDetailChbActualizada      = (CheckBox)  findViewById(R.id.show_detail_actualizada);
 
         showDetailImagen.setImageResource(modelItem.appIcono);
         showDetailNombreAplicacion.setText(modelItem.appName);
         showDetailDescripcion.setText(modelItem.appDescripcion);
         showDetailNombreDesarrollador.setText(modelItem.appDesarrollador);
 
+        if (modelItem.appEstado == ModelItem.ACTUALIZADA) {  // la aplicacion esta actualizada
+            // Hay que inhibir el boton de actualizar y el checkbox
+            ShowDetailChbActualizada.setChecked(true);
+            ShowDetailBtnActualizar.setEnabled(false);
+        }
+
         showDetailBtnDesinstalar.setOnClickListener(this);
         showDetailBtnAbrir.setOnClickListener(this);
         ShowDetailBtnActualizar.setOnClickListener(this);
+
+        ShowDetailChbActualizada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (modelItem.appEstado == ModelItem.ACTUALIZADA) {  // la aplicacion esta actualizada
+                    // Hay que inhibir el boton de actualizar y el checkbox
+                    ShowDetailChbActualizada.setChecked(true);
+                    ShowDetailBtnActualizar.setEnabled(false);
+                }
+            }
+        });
 
 
     }

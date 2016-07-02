@@ -43,6 +43,12 @@
                 android:hint="@string/nombre_desarrollador"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+            <CheckBox
+                android:id="@+id/show_detail_actualizada"
+                android:layout_weight="1"
+                android:text="@string/Actualizada"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
