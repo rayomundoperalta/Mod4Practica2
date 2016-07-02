@@ -30,7 +30,8 @@ public class FragmentoLista extends Fragment {
         View view = inflater.inflate(R.layout.activity_lista_fragmento, container, false);
 
         // Llenamos la lista de la actividad con la información de la base de datos
-        DataSource ds = new DataSource(getContext());
+        //DataSource ds = new DataSource(getContext());
+        DataSource ds = new DataSource(getActivity().getApplicationContext());
         listView = (ListView) view.findViewById(R.id.lista_fragmento_listview);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -50,7 +51,8 @@ public class FragmentoLista extends Fragment {
 
         List<ModelItem> modelItemList = ds.getAllItems();
 
-        listView.setAdapter(new AdapterItemList(getContext(),modelItemList));
+        //listView.setAdapter(new AdapterItemList(getContext(),modelItemList));
+        listView.setAdapter(new AdapterItemList(getActivity().getApplicationContext(),modelItemList));
         return view;
     }
 }

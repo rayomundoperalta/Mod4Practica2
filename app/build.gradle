@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "mx.peta.mod4practica2"
-        minSdkVersion 23
+        minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"

@@ -96,7 +96,7 @@ public class DataSource {
                 SqLiteHelper.APP_COLUMN_DESC          + " = '" + modelItem.appDescripcion   + "', " +
                 SqLiteHelper.APP_COLUMN_DESARROLLADOR + " = '" + modelItem.appDesarrollador + "' "+
                 " where " + SqLiteHelper.APP_COLUMN_ID + " = " + String.valueOf(modelItem.id);
-        
+        Log.d("petaplay", QUERY);
         db.execSQL(QUERY);
     }
 
