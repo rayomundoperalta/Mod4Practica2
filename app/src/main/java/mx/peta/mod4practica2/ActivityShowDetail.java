@@ -21,6 +21,7 @@ import mx.peta.mod4practica2.model.ModelItem;
 import mx.peta.mod4practica2.servicios.ServicioActualizar;
 import mx.peta.mod4practica2.servicios.ServicioBorraApp;
 import mx.peta.mod4practica2.servicios.ServicioDescarga;
+import mx.peta.mod4practica2.servicios.ServicioEditar;
 import mx.peta.mod4practica2.utileria.SystemMsg;
 
 /**
@@ -103,6 +104,28 @@ public class ActivityShowDetail extends AppCompatActivity implements View.OnClic
         return true;
     }
 
+    private void lanzaServicio(Class<?> cls, String msg) {
+        if (showDetailNombreAplicacion.getText().toString().isEmpty() ||
+                showDetailDescripcion.getText().toString().isEmpty() ||
+                showDetailNombreDesarrollador.getText().toString().isEmpty())
+            SystemMsg.msg(getApplicationContext(), getString(R.string.capos_obligatorios));
+        else {
+            ModelItem modelItem = ds.getApp(showDetailNombreAplicacion.getText().toString());
+            if (modelItem != null) { // significa que esta en la base de datos
+                Intent intent = new Intent(getApplicationContext(), cls);
+                intent.putExtra(ServicioActualizar.ID, modelItem.id);
+                intent.putExtra(ServicioActualizar.NOMBRE_APLICACION, showDetailNombreAplicacion.getText().toString());
+                intent.putExtra(ServicioActualizar.DESCRIPCION, showDetailDescripcion.getText().toString());
+                intent.putExtra(ServicioActualizar.NOMBRE_DESARROLLADOR, showDetailNombreDesarrollador.getText().toString());
+                intent.putExtra(ServicioActualizar.ICONO, modelItem.appIcono);
+                intent.putExtra(ActivityShowDetail.CONTADOR_DESCARGAS, idDescarga++);
+                startService(intent);
+                finish();
+            } else
+                SystemMsg.msg(getApplicationContext(), msg);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         /*
@@ -113,7 +136,8 @@ public class ActivityShowDetail extends AppCompatActivity implements View.OnClic
                 finish();
                 return true;
             case R.id.detalle_menu1: // descarga aplicación
-                // Log.d("petaplay", "detectamos menu editar descripcion");
+                Log.d("petaplay", "detectamos menu editar descripcion");
+                lanzaServicio(ServicioEditar.class, getString(R.string.aplicacion_desconicida));
                 return true;
             //case R.id.menu2:
             //    return true;
@@ -135,26 +159,7 @@ public class ActivityShowDetail extends AppCompatActivity implements View.OnClic
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
-                                if (showDetailNombreAplicacion.getText().toString().isEmpty() ||
-                                        showDetailDescripcion.getText().toString().isEmpty() ||
-                                        showDetailNombreDesarrollador.getText().toString().isEmpty())
-                                    SystemMsg.msg(getApplicationContext(), getString(R.string.capos_obligatorios));
-                                else {
-                                    ModelItem modelItem = ds.getApp(showDetailNombreAplicacion.getText().toString());
-                                    if (modelItem != null) { // significa que esta en la base de datos
-                                        Intent intent = new Intent(getApplicationContext(), ServicioBorraApp.class);
-                                        intent.putExtra(ServicioBorraApp.ID, modelItem.id);
-                                        intent.putExtra(ServicioBorraApp.NOMBRE_APLICACION, showDetailNombreAplicacion.getText().toString());
-                                        intent.putExtra(ServicioBorraApp.DESCRIPCION, showDetailDescripcion.getText().toString());
-                                        intent.putExtra(ServicioBorraApp.NOMBRE_DESARROLLADOR, showDetailNombreDesarrollador.getText().toString());
-                                        intent.putExtra(ServicioBorraApp.ICONO, modelItem.appIcono);
-                                        intent.putExtra(ActivityShowDetail.CONTADOR_DESCARGAS, idDescarga++);
-                                        startService(intent);
-                                        finish();
-                                    } else
-                                        SystemMsg.msg(getApplicationContext(), "Aplicación desconocida");
-                                }
+                                lanzaServicio(ServicioBorraApp.class, getString(R.string.aplicacion_desconicida));
                             }
                         })
                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -180,25 +185,8 @@ public class ActivityShowDetail extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.show_detail_btn_actualizar:
                 // Log.d("petaplay", "boton actualizar");
-                if (showDetailNombreAplicacion.getText().toString().isEmpty() ||
-                        showDetailDescripcion.getText().toString().isEmpty() ||
-                        showDetailNombreDesarrollador.getText().toString().isEmpty())
-                    SystemMsg.msg(getApplicationContext(), getString(R.string.capos_obligatorios));
-                else {
-                    ModelItem modelItem = ds.getApp(showDetailNombreAplicacion.getText().toString());
-                    if (modelItem != null) { // significa que esta en la base de datos
-                        Intent intent = new Intent(getApplicationContext(), ServicioActualizar.class);
-                        intent.putExtra(ServicioActualizar.ID, modelItem.id);
-                        intent.putExtra(ServicioActualizar.NOMBRE_APLICACION, showDetailNombreAplicacion.getText().toString());
-                        intent.putExtra(ServicioActualizar.DESCRIPCION, showDetailDescripcion.getText().toString());
-                        intent.putExtra(ServicioActualizar.NOMBRE_DESARROLLADOR, showDetailNombreDesarrollador.getText().toString());
-                        intent.putExtra(ServicioActualizar.ICONO, modelItem.appIcono);
-                        intent.putExtra(ActivityShowDetail.CONTADOR_DESCARGAS, idDescarga++);
-                        startService(intent);
-                        finish();
-                    } else
-                        SystemMsg.msg(getApplicationContext(), "Aplicación desconocida");
-                }
+                lanzaServicio(ServicioActualizar.class, getString(R.string.aplicacion_desconicida));
+
                 break;
         }
     }

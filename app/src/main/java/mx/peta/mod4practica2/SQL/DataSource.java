@@ -90,6 +90,16 @@ public class DataSource {
         db.execSQL(QUERY);
     }
 
+    public void updateApp(ModelItem modelItem) {
+        String QUERY = "update " + SqLiteHelper.APP_TABLE_NAME + " set " +
+                SqLiteHelper.APP_COLUMN_NAME          + " = '" + modelItem.appName + "', " +
+                SqLiteHelper.APP_COLUMN_DESC          + " = '" + modelItem.appDescripcion   + "', " +
+                SqLiteHelper.APP_COLUMN_DESARROLLADOR + " = '" + modelItem.appDesarrollador + "' "+
+                " where " + SqLiteHelper.APP_COLUMN_ID + " = " + String.valueOf(modelItem.id);
+        
+        db.execSQL(QUERY);
+    }
+
     public static List<ModelItem> getAllItems()
     {
         List<ModelItem> modelItemList = new ArrayList<>();
