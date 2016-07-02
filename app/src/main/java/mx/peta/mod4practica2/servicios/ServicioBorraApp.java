@@ -143,6 +143,9 @@ public class ServicioBorraApp extends Service {
                      */
                 Intent i = new Intent(ActivityList.ACTION_UPDATED_DB);
                 sendBroadcast(i);
+                Intent j = new Intent(ActivityShowDetail.ACTION_DELETED_APP);
+                j.putExtra(ActivityShowDetail.INTENT_APP_NAME, modelItem.appName);
+                sendBroadcast(j);
             }
             myAsyncTask = null;
             stopSelf();

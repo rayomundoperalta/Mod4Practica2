@@ -1,7 +1,10 @@
 package mx.peta.mod4practica2;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,6 +33,9 @@ import mx.peta.mod4practica2.utileria.SystemMsg;
  */
 public class ActivityShowDetail extends AppCompatActivity implements View.OnClickListener {
     public static final String CONTADOR_DESCARGAS = "contador_descargas";
+    public static final String ACTION_DELETED_APP = "mx.peta.DELETED_APP";
+    public static final String INTENT_APP_NAME    = "mx.peta.APP_NAME";
+
     int idDescarga = 0;
     ModelItem modelItem;
 
@@ -41,8 +47,20 @@ public class ActivityShowDetail extends AppCompatActivity implements View.OnClic
     Button    showDetailBtnAbrir;
     Button    ShowDetailBtnActualizar;
     CheckBox  ShowDetailChbActualizada;
+    MenuItem  showDetailMeniEditar;
 
     DataSource ds;
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String appName = intent.getExtras().getString(INTENT_APP_NAME);
+            String tmp = showDetailNombreAplicacion.getText().toString();
+            if (appName.equals(tmp)) {
+                SystemMsg.msg(getApplicationContext(), getString(R.string.desinstalada));
+            }
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,6 +127,17 @@ public class ActivityShowDetail extends AppCompatActivity implements View.OnClic
 
     }
 
+    protected void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_DELETED_APP);
+        registerReceiver(broadcastReceiver, filter);
+    }
+
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
+    }
     /*
         Los metodos onCreateptionsMenu y onOptionsItemSelected son metodos que están en la
         activity, y se encargan de manejar el menu, aparecen el developers.android.com en la
@@ -121,6 +150,7 @@ public class ActivityShowDetail extends AppCompatActivity implements View.OnClic
             unicamente no se muestra el toolbar sin el menu, funciona perfectamente
          */
         getMenuInflater().inflate(R.menu.toolbar_menu_detalle,menu);
+        showDetailMeniEditar = (MenuItem) menu.findItem(R.id.detalle_menu1);
         return true;
     }
 
@@ -140,7 +170,7 @@ public class ActivityShowDetail extends AppCompatActivity implements View.OnClic
                 intent.putExtra(ServicioActualizar.ICONO, modelItem.appIcono);
                 intent.putExtra(ActivityShowDetail.CONTADOR_DESCARGAS, idDescarga++);
                 startService(intent);
-                finish();
+                // finish();
             } else
                 SystemMsg.msg(getApplicationContext(), msg);
         }
@@ -179,7 +209,12 @@ public class ActivityShowDetail extends AppCompatActivity implements View.OnClic
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                showDetailBtnDesinstalar.setEnabled(false);
+                                showDetailBtnAbrir.setEnabled(false);
+                                ShowDetailBtnActualizar.setEnabled(false);
+                                showDetailMeniEditar.setEnabled(false);
                                 lanzaServicio(ServicioBorraApp.class, getString(R.string.aplicacion_desconicida));
+
                             }
                         })
                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
