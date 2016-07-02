@@ -30,4 +30,11 @@
     <string name="url">http://yahoo.com/</string> <!-- tiene que se un URL COMPLETO -->
     <string name="delete_app">Desinstalar aplicación</string>
     <string name="Desinstalar_pregunta">¿Desea borrar %s?</string>
+    <string name="borrado_completo">Borrado terminado</string>
+    <string name="borrado">Borrado</string>
+    <string name="borrado_completo_largo">Se termino de borrar</string>
+    <string name="actualizando_aplicacion">Actualizando Aplicación</string>
+    <string name="actualizando">Actualizando</string>
+    <string name="actualizacion_completa">Actualización completa</string>
+    <string name="actualizada_completa_largo">Se termino de actualizar</string>
 </resources>

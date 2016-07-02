@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,7 @@ public class DataSource {
      */
     public ModelItem getApp(String appName) {
         String QUERY = "select " +
+                SqLiteHelper.APP_COLUMN_ID            + ", " +
                 SqLiteHelper.APP_COLUMN_NAME          + ", " +
                 SqLiteHelper.APP_COLUMN_DESC          + ", " +
                 SqLiteHelper.APP_COLUMN_DESARROLLADOR + ", " +
@@ -74,16 +76,18 @@ public class DataSource {
                     cursor.getString(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_DESARROLLADOR)),
                     cursor.getInt(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_ICONO)),
                     cursor.getInt(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_ESTADO)));
+            modelItem.id = cursor.getInt(cursor.getColumnIndexOrThrow(SqLiteHelper.APP_COLUMN_ID));
             cursor.close();
             return modelItem;
         } else
             return null;
     }
 
-    public void deleteItem(ModelItem modelItem)
-    {
-        db.delete(SqLiteHelper.APP_TABLE_NAME,SqLiteHelper.APP_COLUMN_ID + "=?",
-                new String[]{String.valueOf(modelItem.id)});
+    public void updateEstado(ModelItem modelItem) {
+        String QUERY = "update " + SqLiteHelper.APP_TABLE_NAME + " set " +
+                SqLiteHelper.APP_COLUMN_ESTADO + " = " + String.valueOf(ModelItem.ACTUALIZADA) +
+                " where " + SqLiteHelper.APP_COLUMN_ID + " = " + String.valueOf(modelItem.id);
+        db.execSQL(QUERY);
     }
 
     public static List<ModelItem> getAllItems()

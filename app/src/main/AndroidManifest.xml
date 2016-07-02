@@ -35,5 +35,7 @@
             android:name=".ActivityShowDetail">
         </activity>
         <service android:name=".servicios.ServicioDescarga" />
+        <service android:name=".servicios.ServicioBorraApp" />
+        <service android:name=".servicios.ServicioActualizar"/>
     </application>
 </manifest>
