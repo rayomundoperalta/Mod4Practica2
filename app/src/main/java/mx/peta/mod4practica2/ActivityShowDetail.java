@@ -213,6 +213,7 @@ public class ActivityShowDetail extends AppCompatActivity implements View.OnClic
                                 showDetailBtnAbrir.setEnabled(false);
                                 ShowDetailBtnActualizar.setEnabled(false);
                                 showDetailMeniEditar.setEnabled(false);
+                                ShowDetailChbActualizada.setEnabled(false);
                                 lanzaServicio(ServicioBorraApp.class, getString(R.string.aplicacion_desconicida));
 
                             }
